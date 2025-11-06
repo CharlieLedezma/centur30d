@@ -2,6 +2,7 @@
 # Using LinuxCNC version:  Master (2.9)
 # If you make changes to this file, they will be
 # overwritten when you run PNCconf again
+#loadusr -W pokeyPin
 
 loadrt [KINS]KINEMATICS
 loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS
@@ -20,21 +21,40 @@ addf hm2_7i92.0.write         servo-thread
 setp hm2_7i92.0.dpll.01.timer-us -50
 setp hm2_7i92.0.stepgen.timer-number 1
 
-# external output signals
 
+#*********************************************************
+#                       INPUTS
+#*********************************************************
 
 # external input signals
 
+# --- ESTOP-EXT ---
+net estop-ext <= hm2_7i92.0.7i76.0.0.input-13
+#net estop-ext 		<= hm2_7i92.0.7i76.0.0.input-13-not
 
 # --- MAX-X ---
-net max-x     <=  hm2_7i92.0.7i76.0.0.input-00
+net max-x     <=  hm2_7i92.0.7i76.0.0.input-14
+
 
 # --- MAX-Z ---
-net max-z     <=  hm2_7i92.0.7i76.0.0.input-01
+net max-z     <=  hm2_7i92.0.7i76.0.0.input-15
+#net home-z <= hm2_7i92.0.7i76.0.0.input-15-not
 
-#*******************
+#*********************************************************
+#                       OUTPUTS
+#*********************************************************
+# external output signals
+
+# --- COOLANT-MIST ---
+net coolant-mist  =>     hm2_7i92.0.7i76.0.0.output-03
+
+# --- COOLANT-FLOOD ---
+net coolant-flood  =>     hm2_7i92.0.7i76.0.0.output-04
+
+
+#*********************************************************
 #  AXIS X JOINT 0
-#*******************
+#*********************************************************
 
 setp   pid.x.Pgain     [JOINT_0]P
 setp   pid.x.Igain     [JOINT_0]I
@@ -85,9 +105,9 @@ net x-home-sw     =>  joint.0.home-sw-in
 net x-neg-limit     =>  joint.0.neg-lim-sw-in
 net max-x     =>  joint.0.pos-lim-sw-in
 
-#*******************
+#*********************************************************
 #  AXIS Z JOINT 1
-#*******************
+#*********************************************************
 
 setp   pid.z.Pgain     [JOINT_1]P
 setp   pid.z.Igain     [JOINT_1]I
@@ -138,9 +158,9 @@ net z-home-sw     =>  joint.1.home-sw-in
 net z-neg-limit     =>  joint.1.neg-lim-sw-in
 net max-z     =>  joint.1.pos-lim-sw-in
 
-#*******************
+#*********************************************************
 #  SPINDLE
-#*******************
+#*********************************************************
 
 setp   pid.s.Pgain     [SPINDLE_0]P
 setp   pid.s.Igain     [SPINDLE_0]I
@@ -215,7 +235,9 @@ net jog-speed             halui.axis.jog-speed
 net MDI-mode              halui.mode.is-mdi
 
 #  ---coolant signals---
-
+# M7 - turn mist coolant on. 
+# M8 - turn flood coolant on. 
+# M9 - turn both M7 and M8 off
 net coolant-mist      <=  iocontrol.0.coolant-mist
 net coolant-flood     <=  iocontrol.0.coolant-flood
 
@@ -231,7 +253,7 @@ net machine-is-enabled        <=  motion.motion-enabled
 #  ---digital in / out signals---
 
 #  ---estop signals---
-
+#net estop-ext 		<= parport.0.pin-10-in-not
 net estop-out     <=  iocontrol.0.user-enable-out
 net estop-out     =>  iocontrol.0.emc-enable-in
 

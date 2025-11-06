@@ -1,0 +1,128 @@
+*************************************************
+			PANEL
+*************************************************
+emergency_stop		hm2_7i92.0.7i76.0.0.input-013		TB6-14
+power_pc
+power_engine		arduino.digital-in-01
+start				arduino.digital-in-02
+stop				arduino.digital-in-03
+resume				arduino.digital-in-04
+pause				arduino.digital-in-05
+homeall				arduino.digital-in-06
+lamp_on				arduino.digital-in-07
+atc_cw				hm2_7i92.0.7i76.0.0.input-04		TB6-5
+atc_ccw				hm2_7i92.0.7i76.0.0.input-05		TB6-6
+
+feed_override		arduino.analoge-in-01
+spindle_override	arduino.analoge-in-02
+
+power_pc_ligth		arduino.digital-out-01
+power_engine_ligth	arduino.digital-out-02
+start_ligth			arduino.digital-out-03
+stop_liqth			arduino.digital-out-04
+resume_ligth		arduino.digital-out-05
+pause_ligth			arduino.digital-out-06
+homeall_ligth		arduino.digital-out-07
+lamp_on_ligth		arduino.digital-out-08
+
+**************************************************
+		   	   		ATC(TB6)
+**************************************************
+home_x			hm2_7i92.0.7i76.0.0.input-14		TB6-15
+home_z			hm2_7i92.0.7i76.0.0.input-15		TB6-16
+
+--------------------------------------------------
+atc_bit1			hm2_7i92.0.7i76.0.0.input-06		TB6-7
+atc_bit2			hm2_7i92.0.7i76.0.0.input-07		TB6-8
+atc_bit3			hm2_7i92.0.7i76.0.0.input-08		TB6-9
+atc_bit4			hm2_7i92.0.7i76.0.0.input-09		TB6-10
+atc_proximity		hm2_7i92.0.7i76.0.0.input-10		TB6-11
+atc_parity			hm2_7i92.0.7i76.0.0.input-11		TB6-12
+atc_preindex		hm2_7i92.0.7i76.0.0.output-00		TB6-17	
+atc_motor_cw		hm2_7i92.0.7i76.0.0.output-01		TB6-18	
+atc_motor_ccw		hm2_7i92.0.7i76.0.0.output-02		TB6-19	
+
+*************************************************
+		SPINDLE (TB4)
+*************************************************
+gnd								TB4-1
+vout			hm2_7192.0.7i76.0.0spinout		TB4-2
++10V								TB4-3
+enable			hm2_7192.0.7i76.0.0spinena		TB4-5
+reverse			hm2_7192.0.7i76.0.0spindir		TB4-7
+
+ENCODER (TB3)
+a+			TB3-7
+a-			TB3-8
+gnd			TB3-9
+b+			TB3-10
+b-			TB3-11
++5v			TB3-12
+idx+			TB3-13
+idx-			TB3-14
+
+*************************************************
+		      SERVOS
+*************************************************
+
+
+
+
+
+
+*************************************************
+		   MPG (TB5)
+*************************************************
+mpg0_x_a		hm2_7i92.0.7i76.0.0.input-16		TB5-1
+mpg0_x_b		hm2_7i92.0.7i76.0.0.input-17		TB5-2
+mpg1_z_a		hm2_7i92.0.7i76.0.0.input-18		TB5-3
+mpg2_z_b		hm2_7i92.0.7i76.0.0.input-19		TB5-4
+sel_1			hm2_7i92.0.7i76.0.0.input-20		TB5-5
+sel_10			hm2_7i92.0.7i76.0.0.input-21		TB5-6
+sel_100			hm2_7i92.0.7i76.0.0.input-22		TB5-7
+sel_x			hm2_7i92.0.7i76.0.0.input-23		TB5-8
+sel_z			hm2_7i92.0.7i76.0.0.input-24		TB5-9
+stickena		hm2_7i92.0.7i76.0.0.input-25		TB5-10
+stick_x+		hm2_7i92.0.7i76.0.0.input-26		TB5-11
+stick_x-		hm2_7i92.0.7i76.0.0.input-27		TB5-12
+stick_z+		hm2_7i92.0.7i76.0.0.input-28		TB5-13
+stick_z-		hm2_7i92.0.7i76.0.0.input-29		TB5-14
+lube_pres		hm2_7i92.0.7i76.0.0.input-30		TB5-15
+lube_empty		hm2_7i92.0.7i76.0.0.input-31		TB5-16
+
+
+*************************************************
+		REFRIGERACIÓN
+*************************************************
+coolant			hm2_7i92.0.7i76.0.0.output-03		TB6-20	
+mist			hm2_7i92.0.7i76.0.0.output-04		TB6-21
+
+*************************************************
+		LUBRICACIÓN
+*************************************************
+
+
+
+
+*************************************************
+		     CHUCK
+*************************************************
+pedal
+valve_close		hm2_7i92.0.7i76.0.0.output-06		TB6-23	
+valve_open		hm2_7i92.0.7i76.0.0.output-02		TB6-24
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
