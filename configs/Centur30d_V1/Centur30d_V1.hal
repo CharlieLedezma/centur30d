@@ -3,6 +3,7 @@
 # If you make changes to this file, they will be
 # overwritten when you run PNCconf again
 #loadusr -W pokeyPin
+loadusr arduino-connector
 
 loadrt [KINS]KINEMATICS
 loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS
