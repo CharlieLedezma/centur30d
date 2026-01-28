@@ -3,6 +3,7 @@
 # If you make changes to this file, they will be
 # overwritten when you run PNCconf again
 #loadusr -W pokeyPin
+#https://github.com/AlexmagToast/LinuxCNC_ArduinoConnector#
 loadusr arduino-connector
 
 loadrt [KINS]KINEMATICS
