@@ -1,7 +1,7 @@
 *************************************************
 			PANEL
 *************************************************
-emergency_stop		hm2_7i92.0.7i76.0.0.input-013		TB6-14
+emergency_stop		hm2_7i92.0.7i76.0.0.input-06		TB6-7
 power_pc
 power_engine		arduino.digital-in-01
 start				arduino.digital-in-02
@@ -10,11 +10,11 @@ resume				arduino.digital-in-04
 pause				arduino.digital-in-05
 homeall				arduino.digital-in-06
 lamp_on				arduino.digital-in-07
-atc_cw				hm2_7i92.0.7i76.0.0.input-04		TB6-5
-atc_ccw				hm2_7i92.0.7i76.0.0.input-05		TB6-6
+atc_cw				hm2_7i92.0.7i76.0.0.input-07		TB6-8
+atc_ccw				hm2_7i92.0.7i76.0.0.input-08		TB6-9
 
-feed_override		arduino.analoge-in-01
-spindle_override	arduino.analoge-in-02
+--					arduino.analoge-in-01
+--					arduino.analoge-in-02
 
 power_pc_ligth		arduino.digital-out-01
 power_engine_ligth	arduino.digital-out-02
