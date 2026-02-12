@@ -1,0 +1,62 @@
+====Network setup for mesa cards: ====== 
+
+1) Conectar el cable ethernet y polarizar com 5V 
+
+2) $ ping 192.168.1.121 
+
+3) $ sudo apt-get install mesaflash 
+
+4) $ sudo mesaflash --device 7i92 --readhmid 
+
+  *************************
+
+- left click on the network manager on the bottom right side or upper right side near the clock and volume. 
+
+- choose "edit connections" 
+
+- double click on the network you want to edit ( usually "wired connection X") 
+
+- click on the "IPv4 settings" tab 
+
+- choose "manual" on the "method" drop down menu 
+
+- click on "add" 
+
+- write the address as 10.10.10.11 
+
+- never use 10.10.10.1 or 10.10.10.10 for the above 
+
+- netmask should be left as is ( usually 8 ) 
+
+- gateway should be 10.10.10.1 
+
+Save, close, left click on the network manager and click on the "wired connection X", it should take about 3 seconds to reconnect. 
+
+Now open a terminal and do Ping 10.10.10.10, you should get normal reply form the Mesa card. If you do not get a reply, double check your settings. 
+
+To check the Mesa card configuration, in terminal enter : 
+
+mesaflash --addr 10.10.10.10 --device=ETHER --readhmid 
+
+  
+
+There should be a lot of info in the terminal about the card and the available stepgens, PWM's, IO's, etc 
+
+************************
+$mesaflash --device 7i92t --addr 10.10.10.10 --write 7i92t_7i76x2d.bin --reload 
+*************************
+
+
+- Verificar la configuración de la tarjeta 
+
+$ mesaflash --addr 10.10.10.10 --device=ETHER –readhmid 
+
+$ mesaflash --device 7i92 --addr 10.10.10.10 --readhmid 
+
+-Lectura del firmware pinout y almacenamiento en archivo 
+
+$ mesaflash --device 7i92 --addr [ip-address] --readhmid > pinout.txt 
+
+-Indica que hay en la FPGA 
+
+$mesaflash --addr 10.10.10.10 --device=ETHER --readhmid 

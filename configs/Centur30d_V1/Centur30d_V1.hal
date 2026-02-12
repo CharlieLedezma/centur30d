@@ -9,8 +9,8 @@ loadusr arduino-connector
 loadrt [KINS]KINEMATICS
 loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS
 loadrt hostmot2
-#loadrt hm2_eth board_ip="10.10.10.10" config="num_encoders=1 num_pwmgens=0 num_stepgens=5 sserial_port_0=00xxxxxx" 
-loadrt hm2_eth board_ip="10.10.10.10" config="num_encoders=1 num_pwmgens=0 num_stepgens=3 sserial_port_0=2xxxxx" 
+#loadrt hm2_eth board_ip="10.10.10.10" config="num_encoders=1 num_pwmgens=0 num_stepgens=5 #sserial_port_0=00xxxxxx" 
+loadrt hm2_eth board_ip="10.10.10.10" config="num_encoders=1 num_pwmgens=0 num_stepgens=5 sserial_port_0=21xxxxxx" 
 setp    hm2_7i92.0.watchdog.timeout_ns 5000000
 loadrt pid names=pid.x,pid.z,pid.s
 
@@ -32,16 +32,17 @@ setp hm2_7i92.0.stepgen.timer-number 1
 # external input signals
 
 # --- MAX-X ---
-net max-x     <=  hm2_7i92.0.7i76.0.0.input-4
+#net max-x     <=  hm2_7i92.0.7i76.0.0.input-4
+net max-x     <=  hm2_7i92.0.7i76.0.0.input-04
 
 
 # --- MAX-Z ---
-net max-z     <=  hm2_7i92.0.7i76.0.0.input-5
-#net home-z <= hm2_7i92.0.7i76.0.0.input-15-not
+#net max-z     <=  hm2_7i92.0.7i76.0.0.input-5
+net max-z <= hm2_7i92.0.7i76.0.0.input-05
 
 
 # --- ESTOP-EXT ---
-net estop-ext <= hm2_7i92.0.7i76.0.0.input-6
+net estop-ext <= hm2_7i92.0.7i76.0.0.input-06
 #net estop-ext 		<= hm2_7i92.0.7i76.0.0.input-13-not
 
 #*********************************************************
@@ -261,9 +262,12 @@ net machine-is-enabled        <=  motion.motion-enabled
 #  ---digital in / out signals---
 
 #  ---estop signals---
-#net estop-ext 		<= parport.0.pin-10-in-not
+
+#net estop-out     <=  iocontrol.0.user-enable-out
+#net estop-out     =>  iocontrol.0.emc-enable-in
+
 net estop-out     <=  iocontrol.0.user-enable-out
-net estop-out     =>  iocontrol.0.emc-enable-in
+net estop-ext     =>  iocontrol.0.emc-enable-in
 
 #  ---manual tool change signals---
 

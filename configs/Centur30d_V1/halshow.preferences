@@ -1,0 +1,18 @@
+# Halshow settings
+# This file is generated automatically.
+wm geometry . 700x475+162+146
+placeFrames 0.3
+set ::ratio 0.3
+set ::old_w_leftf 160
+set ::watchlist {
+    pin+hm2_7i92.0.7i76.0.0.input-04
+    pin+hm2_7i92.0.7i76.0.0.input-05
+    pin+hm2_7i92.0.7i76.0.0.input-06
+}
+set ::workmode watchhal
+set ::watchInterval 100
+set ::col1_width 100
+set ::ffmts 
+set ::ifmts 
+set ::alwaysOnTop 0
+set ::autoSaveWatchlist 1
