@@ -33,12 +33,12 @@ setp hm2_7i92.0.stepgen.timer-number 1
 
 # --- MAX-X ---
 #net max-x     <=  hm2_7i92.0.7i76.0.0.input-4
-net max-x     <=  hm2_7i92.0.7i76.0.0.input-04
+net home-x     <=  hm2_7i92.0.7i76.0.0.input-04
 
 
 # --- MAX-Z ---
 #net max-z     <=  hm2_7i92.0.7i76.0.0.input-5
-net max-z <= hm2_7i92.0.7i76.0.0.input-05
+net home-z <= hm2_7i92.0.7i76.0.0.input-05
 
 
 # --- ESTOP-EXT ---
@@ -113,9 +113,9 @@ net x-enable     => hm2_7i92.0.stepgen.00.enable
 
 # ---setup home / limit switch signals---
 
-net x-home-sw     =>  joint.0.home-sw-in
+net home-x     =>  joint.0.home-sw-in
 net x-neg-limit     =>  joint.0.neg-lim-sw-in
-net max-x     =>  joint.0.pos-lim-sw-in
+#net max-x     =>  joint.0.pos-lim-sw-in
 
 #*********************************************************
 #  AXIS Z JOINT 1
@@ -166,9 +166,10 @@ net z-enable     => hm2_7i92.0.stepgen.01.enable
 
 # ---setup home / limit switch signals---
 
-net z-home-sw     =>  joint.1.home-sw-in
+net home-z     =>  joint.1.home-sw-in
 net z-neg-limit     =>  joint.1.neg-lim-sw-in
-net max-z     =>  joint.1.pos-lim-sw-in
+#net max-z     =>  joint.1.pos-lim-sw-in
+
 
 #*********************************************************
 #  SPINDLE
