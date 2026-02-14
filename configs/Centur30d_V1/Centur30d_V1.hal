@@ -93,10 +93,13 @@ setp   hm2_7i92.0.stepgen.00.dirhold         [JOINT_0]DIRHOLD
 setp   hm2_7i92.0.stepgen.00.steplen         [JOINT_0]STEPLEN
 setp   hm2_7i92.0.stepgen.00.stepspace       [JOINT_0]STEPSPACE
 setp   hm2_7i92.0.stepgen.00.position-scale  [JOINT_0]STEP_SCALE
+setp   hm2_7i92.0.stepgen.00.maxaccel        [JOINT_0]STEPGEN_MAXACCEL
+setp   hm2_7i92.0.stepgen.00.maxvel          [JOINT_0]STEPGEN_MAXVEL
+
 setp   hm2_7i92.0.stepgen.00.step_type        0
 setp   hm2_7i92.0.stepgen.00.control-type     1
-setp   hm2_7i92.0.stepgen.00.maxaccel         [JOINT_0]STEPGEN_MAXACCEL
-setp   hm2_7i92.0.stepgen.00.maxvel           [JOINT_0]STEPGEN_MAXVEL
+
+
 
 # ---closedloop stepper signals---
 
@@ -262,9 +265,6 @@ net machine-is-enabled        <=  motion.motion-enabled
 #  ---digital in / out signals---
 
 #  ---estop signals---
-
-#net estop-out     <=  iocontrol.0.user-enable-out
-#net estop-out     =>  iocontrol.0.emc-enable-in
 
 net estop-out     <=  iocontrol.0.user-enable-out
 net estop-ext     =>  iocontrol.0.emc-enable-in
