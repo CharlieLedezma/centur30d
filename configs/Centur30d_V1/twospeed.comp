@@ -1,0 +1,14 @@
+component twospeed "Checks if spindle speed is within range";
+pin in float speed_in "Current spindle speed from motion";
+pin in float ref_speed "Minimum speed threshold";
+pin out bit is_on "True if speed_in > ref_speed";
+function _;
+license "GPL";
+;;
+FUNCTION(_) {
+    if (speed_in > ref_speed) {
+        is_on = 1;		//Activate low-speed contactor
+    } else {
+        is_on = 0;		//Activate high-speed contactor
+    }
+}

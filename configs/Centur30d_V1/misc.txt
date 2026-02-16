@@ -1,0 +1,159 @@
+
+DUDAS
+
+- comp, or wcomp
+
+
+M41, M42 (customarily used for gear selection)
+Example:
+M5
+M41      (Low range)
+S800
+M3
+
+M5
+M42      (High range)
+S2500
+M3
+
+
+
+
+motion.digital-out-00 : These pins are controlled by the M62 through M65 words.
+
+
+
+# Low speed output
+net spindle-low-speed <= motion.digital-out-00
+net spindle-low-speed => hm2_7i92.0.7i76.0.0.out-10
+
+
+
+
+
+
+# High gear output
+net spindle-high-speed <= motion.digital-out-01
+net spindle-high-speed => hm2_7i92.0.7i76.0.0.out-11
+
+####################################################################################
+#				 twospeed.comp
+####################################################################################
+
+component twospeed "Checks if spindle speed is within range";
+pin in float speed_in "Current spindle speed from motion";
+pin in float ref_speed "Minimum speed threshold";
+pin out bit is_on "True if speed_in > ref_speed";
+function _;
+license "GPL";
+;;
+FUNCTION(_) {
+    if (speed_in > ref_speed) {
+        is_on = 1;		//Activate low-speed contactor
+    } else {
+        is_on = 0;		//Activate high-speed contactor
+    }
+}
+
+
+
+
+
+####################################################################################
+#				   spindle_check.hal
+####################################################################################
+
+
+#If S < 1200 → LowSpeed (contactor KM2)
+#If S ≥ 1200 → HighSpeed (contactor KM3)
+
+
+loadrt twospeed count=1
+addf twospeed.0 servo-thread
+
+# Set threshold (e.g., if S is greater than 1200)
+setp twospeed.0.ref_speed 1200
+
+# Connect the spindle speed to the checker
+net speed-raw motion.spindle-speed-out => twospeed.0.speed-in
+
+
+# Low speed output
+#net spindle-low-speed <= motion.digital-out-00
+#net spindle-low-speed => hm2_7i92.0.7i76.0.0.out-10
+
+# Use the output to trigger something (e.g., a logic signal)
+net spindle-high-speed twospeed.0.is-on => hm2_7i92.0.7i76.0.0.out-10
+net spindle-low-speed twospeed.0.is-on => hm2_7i92.0.7i76.0.0.out-11
+
+
+#setp pwmgen.0.scale 1500   # low gear scaling
+
+####################################################################################
+#				   .INI
+####################################################################################
+
+
+
+
+
+####################################################################################
+#				   DICAS
+####################################################################################
+##*## https://forum.linuxcnc.org/47-hal-examples/27071-automatic-spindle-gear-detection?start=20
+#https://162.243.45.186/10-advanced-configuration/41768-2-speed-spindle-configuration-help?start=10
+#MACHINE IS ON
+net machine-is-on => hm2_5i25.0.7i77.0.0.output-06
+
+
+#SPINDLE-CW
+net spindle-cw  motion.spindle-forward  => hm2_5i25.0.7i77.0.0.output-08
+
+#SPINDLE-CCW
+net spindle-ccw  motion.spindle-reverse => hm2_5i25.0.7i77.0.0.output-09
+
+#SPINDLE-STOP
+#net spindle-on  motion.spindle-on       => hm2_5i25.0.7i84.0.2.output-13
+
+
+####################################################################################
+#				   Install halcmd
+####################################################################################
+
+sudo apt-get install build-essential
+
+
+
+####################################################################################
+#				   Install .comp
+####################################################################################
+
+
+sudo halcompile --install name.comp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INI Configuration (.ini file):
+Define two different speed ranges in the [SPINDLE_... ] section if using spindle-v2 or similar configurations, 
+or map them to different gear ratios to set min/max RPM for each winding configuration.
+
+
