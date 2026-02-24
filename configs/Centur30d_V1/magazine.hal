@@ -1,0 +1,128 @@
+#carrousel component
+#https://github.com/LinuxCNC/linuxcnc/tree/master/src/hal/components
+############################################################################################################################
+#								NOTES
+############################################################################################################################
+#This version has a pin called "counts-target" which can be connected either to a stepgen or a PID linked to an encoder.
+
+#Note that you should set the stepgen scale to 1.0 and allow the carousel component to handle scaling.
+# version in 2.9 that can use direct encoder feedback,
+#para instalarlo en el sistema:
+# 	$ sudo halcompile --install carousel.comp
+#Si el comando no funciona, primero se debe correr:
+#	$ sudo apt-get install linuxcnc-uspace-dev
+#
+#
+#	BIT4	BIT3	BIT2	BIT1
+#1	0	0	0	1
+#2	0	0	1	0
+#3	0	0	1	1
+#4	0	1	0	0
+#5	0	1	0	1
+#6	0	1	1	0
+#7	0	1	1	1
+#8	1	0	0	0
+	
+
+############################################################################################################################
+
+loadrt carousel pockets=8 encoding=binary num_sense=4 dir=2 parity=0
+
+
+#loadrt and2 names=and2.Hydraulik-frei,and2.Spind-enable,and2.Spindel-frei,and2.Turret-close
+loadrt and2 names=and2.Turret-close
+loadrt timedelay count=3
+loadrt or2 count=1
+
+#loadrt and2 names=and2_Turret_LOCK,and2_freno_Turret_ON_OFF
+#loadrt not  names=not_carrousel_EN
+
+
+addf carousel.0                 servo-thread
+addf or2.0                     	servo-thread
+addf and2.Turret-close         	servo-thread
+
+#addf and2_Turret_LOCK      	servo-thread
+#addf and2_freno_Turret_ON_OFF   servo-thread
+#addf not_carrousel_EN           servo-thread
+
+############################################################################################################################
+#						ENTRADAS PARA SELECCION HERRAMIENTA ATC
+############################################################################################################################
+
+net tc_bit_0  	hm2_7i92.0.7i76.0.0.input-08 => carousel.0.sense-0
+net tc_bit_1  	hm2_7i92.0.7i76.0.0.input-09 => carousel.0.sense-1
+net tc_bit_2  	hm2_7i92.0.7i76.0.0.input-10 => carousel.0.sense-2
+net tc_bit_3  	hm2_7i92.0.7i76.0.0.input-11 => carousel.0.sense-3
+
+net tc_strobe 	hm2_7i92.0.7i76.0.0.input-12 => carousel.0.strobe 
+
+net tc_parity 	hm2_7i92.0.7i76.0.0.input-14 => carousel.0.parity
+
+
+############################################################################################################################
+#			ENTRADAS PARA LOS SENSORES DE PROXIMIDAD DE LA TORRETA 
+############################################################################################################################
+
+#net sw-torreta_lock         hm2_7i96s.0.inm.00.input-04  # SENSOR DE PROXIMIDAD QUE INDICA QUE LA TORRETA ESTA BLOQUEADA 
+ 
+net sw-torreta_preindex     hm2_7i92.0.7i76.0.0.input-13  # SENSOR DE PROXIMIDAD QUE INDICA QUE EL SOLENOIDE ESTA ACTIVADO
+
+
+############################################################################################################################
+#						SOLENOIDE DE PREINDEXACIÓN 
+############################################################################################################################
+
+net tool-confirm =>  hm2_7i92.0.7i76.0.0.output-00  # SE ACTIVA EL SOLENOIDE DE LA TORRETA CUANDO LA HERRAMIENTA SELECCIONADA ESTA EN POSICION
+
+
+
+
+############################################################################################################################
+#						MECANISMO DE BLOQUEO
+############################################################################################################################
+
+#motion.feed-hold: TRUE, detiene la máquina, causando que el feed rate se vuela cero.
+
+
+net tool-change-done   	=> and2.Turret-close.in0
+net strobe_not 		=> and2.Turret-close.in1
+net locked motion.feed-hold <= and2.Turret-close.out
+
+
+#net tool-fwd carousel.0.motor-fwd  => or2.0.in0
+#net tool-rev carousel.0.motor-rev  => or2.0.in1
+#net tool-brake  <= or2.0.out
+#net tool-brake => hm2_[MESA](BOARD).0.ssr.00.out-02
+
+
+
+############################################################################################################################
+#					  ACTIVACIÓN DE MOTOR 
+############################################################################################################################
+
+
+net tool-fwd   carousel.0.motor-fwd 	hm2_7i92.0.7i76.0.0.output-01
+
+              
+net tool-rev  carousel.0.motor-rev    	hm2_7i92.0.7i76.0.0.output-02 
+
+
+
+############################################################################################################################
+#				CONTROL CAMBIADOR AUTOMATICO DE HERRAMIENTAS
+############################################################################################################################
+
+net tool-num            iocontrol.0.tool-prep-pocket    => carousel.0.pocket-number
+net prep-loop           iocontrol.0.tool-prepare        => iocontrol.0.tool-prepared
+net tool-change-start   iocontrol.0.tool-change         => carousel.0.enable                  
+net tool-confirm        carousel.0.ready      		=> iocontrol.0.tool-changed
+
+net tool-active	   	carousel.0.current-position
+
+
+
+#net tool-pocket 	iocontrol.0.tool-prep-pocket 	=> carousel.0.pocket-number
+#net tool-sel-loop 	iocontrol.0.tool-prepare 	=> iocontrol.0.tool-prepared
+#net tool-change-start 	iocontrol.0.tool-change 	=> carousel.0.enable
+#net tool-change-done 	carousel.0.ready 		=> iocontrol.0.tool-changed

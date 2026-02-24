@@ -2,10 +2,11 @@ loadrt twospeed count=1
 addf twospeed.0 servo-thread
 
 # Set threshold (e.g., if S is greater than 1200)
-setp twospeed.0.ref_speed 1200
+setp twospeed.0.refSpeed 1200
+
 
 # Connect the spindle speed to the checker
-net speed-raw motion.spindle-speed-out => twospeed.0.speed-in
+#net speed-raw spindle.0.speed-out => twospeed.0.speedIn
 
 
 # Low speed output
@@ -13,5 +14,6 @@ net speed-raw motion.spindle-speed-out => twospeed.0.speed-in
 #net spindle-low-speed => hm2_7i92.0.7i76.0.0.out-10
 
 # Use the output to trigger something (e.g., a logic signal)
-net spindle-high-speed twospeed.0.is-on => hm2_7i92.0.7i76.0.0.out-10
-net spindle-low-speed twospeed.0.is-on => hm2_7i92.0.7i76.0.0.out-11
+
+net spindle-high-speed twospeed.0.isOn => hm2_7i92.0.7i76.0.0.output-10
+#net spindle-low-speed twospeed.0.isOn => hm2_7i92.0.7i76.0.0.output-11

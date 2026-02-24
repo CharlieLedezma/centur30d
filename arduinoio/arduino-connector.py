@@ -55,17 +55,17 @@ connection = '/dev/ttyACM0' 	#this is the port your Arduino is connected to. You
 
 
 # Set how many Inputs you have programmed in Arduino and which pins are Inputs, Set Inputs = 0 to disable
-Inputs = 2 
-InPinmap = [8,9] #Which Pins are Inputs?
-
+Inputs = 9 
+InPinmap = [1,2,3,4,5,6,7,8,9] #Which Pins are Inputs?
+#InPinmap = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
 # Set how many Toggled ("sticky") Inputs you have programmed in Arduino and which pins are Toggled Inputs , Set SInputs = 0 to disable
-SInputs = 1
+SInputs = 0
 sInPinmap = [10] #Which Pins are SInputs?
 
 
 # Set how many Outputs you have programmed in Arduino and which pins are Outputs, Set Outputs = 0 to disable
-Outputs = 2				#9 Outputs, Set Outputs = 0 to disable
-OutPinmap = [11,12]	#Which Pins are Outputs?
+Outputs = 9				#9 Outputs, Set Outputs = 0 to disable
+OutPinmap = [20,21,22,23,24,25,26,27,28]	#Which Pins are Outputs?
 
 # Set how many PWM Outputs you have programmed in Arduino and which pins are PWM Outputs, you can set as many as your Arduino has PWM pins. List the connected pins below.
 PwmOutputs = 0			#number of PwmOutputs, Set PwmOutputs = 0 to disable 

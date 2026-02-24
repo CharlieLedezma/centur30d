@@ -4,7 +4,7 @@
 # overwritten when you run PNCconf again
 #loadusr -W pokeyPin
 #https://github.com/AlexmagToast/LinuxCNC_ArduinoConnector#
-loadusr arduino-connector
+#loadusr arduino-connector
 
 loadrt [KINS]KINEMATICS
 loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS
@@ -21,8 +21,15 @@ addf pid.x.do-pid-calcs       servo-thread
 addf pid.z.do-pid-calcs       servo-thread
 addf pid.s.do-pid-calcs       servo-thread
 addf hm2_7i92.0.write         servo-thread
-setp hm2_7i92.0.dpll.01.timer-us -50
-setp hm2_7i92.0.stepgen.timer-number 1
+#setp hm2_7i92.0.dpll.01.timer-us -50
+#setp hm2_7i92.0.stepgen.timer-number 1
+
+#setp hm2_7i92.0.dpll.01.timer-us -200
+#setp hm2_7i92.0.encoder.timer-number 1
+#setp hm2_7i92.0.stepgen.timer-number 1
+#setp hm2_7i92.0.encoder.sample-frequency 20000000
+
+
 
 
 ##################################################################################################
@@ -46,7 +53,7 @@ net estop-ext <= hm2_7i92.0.7i76.0.0.input-06
 ##################################################################################################
 
 #--- ENABLE SERVO-YASKAWA ---
-net x-enable		 hm2_7i92.0.7i76.0.0.output-08-not
+net x-enable		 hm2_7i92.0.7i76.0.0.output-08
 
 
 
@@ -83,7 +90,7 @@ setp   hm2_7i92.0.stepgen.00.dirsetup        [JOINT_0]DIRSETUP
 setp   hm2_7i92.0.stepgen.00.dirhold         [JOINT_0]DIRHOLD
 setp   hm2_7i92.0.stepgen.00.steplen         [JOINT_0]STEPLEN
 setp   hm2_7i92.0.stepgen.00.stepspace       [JOINT_0]STEPSPACE
-setp   hm2_7i92.0.stepgen.00.position-scale  [JOINT_0]STEP_SCALE
+setp   hm2_7i92.0.stepgen.00.position-scale  [JOINT_0]ENCODER_SCALE
 setp   hm2_7i92.0.stepgen.00.maxaccel        [JOINT_0]STEPGEN_MAXACCEL
 setp   hm2_7i92.0.stepgen.00.maxvel          [JOINT_0]STEPGEN_MAXVEL
 
@@ -101,6 +108,18 @@ net x-pos-fb     <= hm2_7i92.0.stepgen.00.position-fb
 net x-pos-fb     => joint.0.motor-pos-fb
 net x-enable     <= joint.0.amp-enable-out
 net x-enable     => hm2_7i92.0.stepgen.00.enable
+
+# ---Encoder feedback signals/setup---
+
+#setp    hm2_7i92.0.encoder.00.counter-mode 0
+#setp    hm2_7i92.0.encoder.00.filter 1
+#setp    hm2_7i92.0.encoder.00.index-invert 0
+#setp    hm2_7i92.0.encoder.00.index-mask 0
+#setp    hm2_7i92.0.encoder.00.index-mask-invert 0
+#setp    hm2_7i92.0.encoder.00.scale  [JOINT_0]ENCODER_SCALE
+
+net joint-0-pos-rawcounts        <=  hm2_7i92.0.encoder.00.rawcounts
+
 
 # ---setup home / limit switch signals---
 
@@ -139,7 +158,7 @@ setp   hm2_7i92.0.stepgen.01.dirsetup        [JOINT_1]DIRSETUP
 setp   hm2_7i92.0.stepgen.01.dirhold         [JOINT_1]DIRHOLD
 setp   hm2_7i92.0.stepgen.01.steplen         [JOINT_1]STEPLEN
 setp   hm2_7i92.0.stepgen.01.stepspace       [JOINT_1]STEPSPACE
-setp   hm2_7i92.0.stepgen.01.position-scale  [JOINT_1]STEP_SCALE
+setp   hm2_7i92.0.stepgen.01.position-scale  [JOINT_1]ENCODER_SCALE
 setp   hm2_7i92.0.stepgen.01.step_type        0
 setp   hm2_7i92.0.stepgen.01.control-type     1
 setp   hm2_7i92.0.stepgen.01.maxaccel         [JOINT_1]STEPGEN_MAXACCEL
@@ -288,17 +307,17 @@ net estop-ext     =>  iocontrol.0.emc-enable-in
 
 #  ---manual tool change signals---
 
-net tool-change-request    <= iocontrol.0.tool-change
-net tool-change-confirmed  => iocontrol.0.tool-changed
-net tool-number            <= iocontrol.0.tool-prep-number
+#net tool-change-request    <= iocontrol.0.tool-change
+#net tool-change-confirmed  => iocontrol.0.tool-changed
+#net tool-number            <= iocontrol.0.tool-prep-number
 
 #  ---Use external manual tool change dialog---
 
-loadusr -W hal_manualtoolchange
-net tool-change-request    =>  hal_manualtoolchange.change
-net tool-change-confirmed  <=  hal_manualtoolchange.changed
-net tool-number            =>  hal_manualtoolchange.number
+#loadusr -W hal_manualtoolchange
+#net tool-change-request    =>  hal_manualtoolchange.change
+#net tool-change-confirmed  <=  hal_manualtoolchange.changed
+#net tool-number            =>  hal_manualtoolchange.number
 
 #  ---ignore tool prepare requests---
-net tool-prepare-loopback   iocontrol.0.tool-prepare      =>  iocontrol.0.tool-prepared
+#net tool-prepare-loopback   iocontrol.0.tool-prepare      =>  iocontrol.0.tool-prepared
 
