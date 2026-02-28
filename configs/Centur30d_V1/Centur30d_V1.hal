@@ -4,7 +4,7 @@
 # overwritten when you run PNCconf again
 #loadusr -W pokeyPin
 #https://github.com/AlexmagToast/LinuxCNC_ArduinoConnector#
-#loadusr arduino-connector
+loadusr arduino-connector
 
 loadrt [KINS]KINEMATICS
 loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS
@@ -37,7 +37,7 @@ addf hm2_7i92.0.write         servo-thread
 ##################################################################################################
 
 # --- HOME-X ---
-net home-x     <=  hm2_7i92.0.7i76.0.0.input-04
+net home-x     <= hm2_7i92.0.7i76.0.0.input-04
 
 
 # --- HOME-Z ---
