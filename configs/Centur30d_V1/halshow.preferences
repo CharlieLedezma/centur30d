@@ -1,20 +1,24 @@
 # Halshow settings
 # This file is generated automatically.
-wm geometry . 1024x685+0+27
-placeFrames 0.2865612648221344
-set ::ratio 0.2865612648221344
+wm geometry . 1024x685+-105+252
+placeFrames 0.2885375494071146
+set ::ratio 0.2885375494071146
 set ::old_w_leftf 160
 set ::watchlist {
-    pin+hm2_7i92.0.encoder.00.input-a
-    pin+hm2_7i92.0.encoder.00.input-b
-    pin+hm2_7i92.0.encoder.00.count
-    pin+hm2_7i92.0.encoder.00.velocity
-    pin+hm2_7i92.0.encoder.00.velocity-rpm
     pin+hm2_7i92.0.7i76.0.0.spindir
     pin+hm2_7i92.0.7i76.0.0.spinena
     pin+hm2_7i92.0.7i76.0.0.spinout
+    pin+hm2_7i92.0.encoder.00.input-a
+    pin+hm2_7i92.0.encoder.00.input-b
     pin+hm2_7i92.0.encoder.00.input-index
-    pin+hm2_7i92.0.encoder.00.index-enable
+    pin+hm2_7i92.0.encoder.00.velocity-rpm
+    pin+hm2_7i92.0.encoder.00.position
+    sig+spindle-revs
+    sig+spindle-ccw
+    sig+spindle-cw
+    sig+spindle-brake
+    pin+hm2_7i92.0.encoder.00.rawcounts
+    sig+spindle-at-speed
 }
 set ::workmode watchhal
 set ::watchInterval 100

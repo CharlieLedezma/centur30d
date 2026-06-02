@@ -195,6 +195,7 @@ setp   pid.s.FF2       [SPINDLE_0]FF2
 setp   pid.s.deadband  [SPINDLE_0]DEADBAND
 setp   pid.s.maxoutput [SPINDLE_0]MAX_OUTPUT
 setp   pid.s.error-previous-target true
+setp   pid.s.maxerror 0.012700	
 
 net spindle-index-enable  =>  pid.s.index-enable
 net spindle-enable        =>  pid.s.enable
@@ -204,11 +205,12 @@ net spindle-output        <=  pid.s.output
 
 # ---digital potentiometer output signals/setup---
 
-#setp   hm2_7i92.0.7i76.0.0.spinout-minlim    [SPINDLE_0]OUTPUT_MIN_LIMIT
-#setp   hm2_7i92.0.7i76.0.0.spinout-maxlim    [SPINDLE_0]OUTPUT_MAX_LIMIT
-#setp   hm2_7i92.0.7i76.0.0.spinout-scalemax  [SPINDLE_0]OUTPUT_SCALE
+setp   hm2_7i92.0.7i76.0.0.spinout-minlim    [SPINDLE_0]OUTPUT_MIN_LIMIT
+setp   hm2_7i92.0.7i76.0.0.spinout-maxlim    [SPINDLE_0]OUTPUT_MAX_LIMIT
+setp   hm2_7i92.0.7i76.0.0.spinout-scalemax  [SPINDLE_0]OUTPUT_SCALE
 
-net spindle-output      => hm2_7i92.0.7i76.0.0.spinout
+net spindle-vel-cmd-rpm-abs => hm2_7i92.0.7i76.0.0.spinout
+#net spindle-output      => hm2_7i92.0.7i76.0.0.spinout
 net spindle-enable      => hm2_7i92.0.7i76.0.0.spinena
 net spindle-ccw         => hm2_7i92.0.7i76.0.0.spindir
 
@@ -244,7 +246,7 @@ net spindle-index-enable      <=>  spindle.0.index-enable
 # ---Setup spindle at speed signals---
 
 sets spindle-at-speed true
-
+#sets spindle-index-enable true
 
 #******************************
 # connect miscellaneous signals
