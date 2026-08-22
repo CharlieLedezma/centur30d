@@ -1,24 +1,37 @@
 # Halshow settings
 # This file is generated automatically.
-wm geometry . 1024x685+-105+252
-placeFrames 0.2885375494071146
-set ::ratio 0.2885375494071146
-set ::old_w_leftf 160
+wm geometry . 1024x685+-244+22
+placeFrames 0.21442687747035574
+set ::ratio 0.21442687747035574
+set ::old_w_leftf 274
 set ::watchlist {
-    pin+hm2_7i92.0.7i76.0.0.spindir
-    pin+hm2_7i92.0.7i76.0.0.spinena
-    pin+hm2_7i92.0.7i76.0.0.spinout
-    pin+hm2_7i92.0.encoder.00.input-a
-    pin+hm2_7i92.0.encoder.00.input-b
-    pin+hm2_7i92.0.encoder.00.input-index
-    pin+hm2_7i92.0.encoder.00.velocity-rpm
-    pin+hm2_7i92.0.encoder.00.position
-    sig+spindle-revs
-    sig+spindle-ccw
-    sig+spindle-cw
-    sig+spindle-brake
-    pin+hm2_7i92.0.encoder.00.rawcounts
-    sig+spindle-at-speed
+    pin+hm2_7i92.0.7i76.0.0.enc0.count
+    pin+hm2_7i92.0.7i76.0.0.enc0.position
+    pin+hm2_7i92.0.7i76.0.0.enc1.count
+    pin+hm2_7i92.0.7i76.0.0.enc1.position
+    pin+hm2_7i92.0.7i76.0.0.input-20
+    pin+hm2_7i92.0.7i76.0.0.input-21
+    pin+hm2_7i92.0.7i76.0.0.input-22
+    pin+hm2_7i92.0.7i76.0.0.input-23
+    pin+hm2_7i92.0.7i76.0.0.input-24
+    pin+hm2_7i92.0.7i76.0.0.input-25
+    pin+hm2_7i92.0.7i76.0.0.input-26
+    pin+hm2_7i92.0.7i76.0.0.input-05
+    pin+hm2_7i92.0.7i76.0.0.input-06
+    pin+hm2_7i92.0.7i76.0.0.fieldvoltage
+    pin+wcomp.0.out
+    sig+mpg-x
+    sig+mpg-z
+    sig+mpg-scale
+    pin+hm2_7i92.0.7i76.0.0.enc0.rawcounts
+    pin+hm2_7i92.0.7i76.0.0.enc1.rawcounts
+    sig+spindle-vel-cmd-rpm-abs
+    sig+encoder-counts
+    pin+axis.x.jog-counts
+    pin+axis.z.jog-counts
+    pin+hm2_7i92.0.7i76.0.0.input-16
+    pin+hm2_7i92.0.7i76.0.0.input-17
+    param+hm2_7i92.0.7i76.0.0.swrevision
 }
 set ::workmode watchhal
 set ::watchInterval 100

@@ -1,3 +1,31 @@
 # Include your custom HAL commands here
 # This file will not be overwritten when you run PNCconf again
 
+# Load the required helper components
+loadrt wcomp count=1
+addf wcomp.0 servo-thread
+#loadrt mux2 count=1
+
+# 1. COIL SELECTION LOGIC
+# Check if commanded speed is within the High Coil range
+
+setp wcomp.0.min [SPINDLE_0]COIL_THRESHOLD
+setp wcomp.0.max [SPINDLE_0]HIGH_COIL_MAX_RPM
+
+# wcomp.0.in receive the speed value (from M3/M4 SXXX )to be compared between wcomp.0.min and wcomp.0.max
+net spindle-vel-cmd-rpm-abs => wcomp.0.in
+
+# This signal goes TRUE if speed is above threshold (High-Speed Coil required) and below MAX_FORWARD_VELOCITY
+
+net select-high-coil <= wcomp.0.out
+
+# Connect this pin to your physical relay driving the contactor coil 
+#Spindle_High	->   TB5-19
+
+net select-high-coil => hm2_7i92.0.7i76.0.0.output-10
+
+
+
+
+
+

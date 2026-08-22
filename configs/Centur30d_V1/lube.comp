@@ -1,0 +1,54 @@
+
+component lube "Lube and velocity";
+
+pin in float xvel "X velocity";
+pin in float zvel "Z velocity";
+pin in bit mrun "net machine-is-enabled";
+pin in unsigned xpath = 3000 "X travel";
+pin in unsigned zpath = 3000 "Z travel";
+pin in float lubetime = 3 "Pump on timer";
+pin out bit out "Pump on signal";
+
+variable float pathx = 0;
+variable float pathz = 0;
+variable float timer = 0;
+variable int mstart = 0; // 1=run on machine-is-enabled (linuxcnc start).
+variable int pump_on = 0;	
+
+author "Desti";
+license "GPL";
+function _;
+;;
+FUNCTION(_) {
+
+	// pump timer
+	if (pump_on) {
+	
+		out = 1;
+		timer = timer+fperiod;
+		
+		if ( timer > lubetime ) { 
+			out = 0; 
+			pump_on = 0; 
+		}
+	}
+	
+	// machine start/restart lube shot
+	if ( mrun && mstart ) { 
+		pump_on = 1; 
+		timer = mstart = 0; 
+	}
+	//if ( !mrun ) mstart = 1;
+
+	// axis path integrators
+	if ( xvel >= 0.0 ) pathx = pathx + xvel * fperiod;
+	else pathx = pathx - xvel * fperiod;
+	if ( zvel >= 0.0 ) pathz = pathz + zvel * fperiod;
+	else pathz = pathz - zvel * fperiod;
+
+	// run pump
+	if ( pathx >= xpath || pathz >=zpath ) { 
+		pathx = pathz = timer = 0.0; 
+		pump_on = 1; 
+	}
+}
