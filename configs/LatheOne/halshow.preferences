@@ -1,0 +1,33 @@
+# Halshow settings
+# This file is generated automatically.
+wm geometry . 997x616+812+142
+placeFrames 0.30526315789473685
+set ::ratio 0.30526315789473685
+set ::old_w_leftf 160
+set ::watchlist {
+    sig+estop-out
+    sig+home-x
+    sig+home-z
+    sig+mpg-scale
+    sig+mpg-x
+    sig+mpg-z
+    pin+hm2_7i92.0.encoder.00.input-a
+    pin+hm2_7i92.0.encoder.00.input-b
+    pin+hm2_7i92.0.encoder.00.count
+    pin+hm2_7i92.0.7i76.0.0.enc0.count
+    pin+hm2_7i92.0.7i76.0.0.enc0.position
+    pin+hm2_7i92.0.7i76.0.0.enc0.index-enable
+    pin+axis.x.jog-counts
+    pin+axis.x.jog-scale
+    pin+axis.z.jog-counts
+    pin+axis.z.jog-scale
+    pin+axis.z.jog-enable
+    pin+axis.x.jog-enable
+}
+set ::workmode watchhal
+set ::watchInterval 100
+set ::col1_width 100
+set ::ffmts 
+set ::ifmts 
+set ::alwaysOnTop 0
+set ::autoSaveWatchlist 1

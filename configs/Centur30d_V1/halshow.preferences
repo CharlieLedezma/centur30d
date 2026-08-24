@@ -32,6 +32,15 @@ set ::watchlist {
     pin+hm2_7i92.0.7i76.0.0.input-16
     pin+hm2_7i92.0.7i76.0.0.input-17
     param+hm2_7i92.0.7i76.0.0.swrevision
+    pin+spindle.0.speed-out
+    pin+carousel.0.current-position
+    sig+spindle-manual-ccw
+    sig+spindle-manual-cw
+    pin+hm2_7i92.0.encoder.00.index-enable
+    pin+hm2_7i92.0.encoder.00.input-a
+    pin+hm2_7i92.0.encoder.00.input-b
+    pin+hm2_7i92.0.encoder.00.input-index
+    pin+hm2_7i92.0.encoder.00.position
 }
 set ::workmode watchhal
 set ::watchInterval 100
