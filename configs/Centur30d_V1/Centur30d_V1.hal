@@ -2,9 +2,11 @@
 # Using LinuxCNC version:  Master (2.9)
 # If you make changes to this file, they will be
 # overwritten when you run PNCconf again
-#loadusr -W pokeyPin
+
 #https://github.com/AlexmagToast/LinuxCNC_ArduinoConnector#
-#loadusr arduino-connector
+loadusr arduino-connector
+
+
 #loadusr -Wn vfd hy_vfd -n vfd -d /dev/ttyUSB0 -p none -r 19200
 
 loadrt [KINS]KINEMATICS
@@ -14,8 +16,9 @@ loadrt hostmot2
 loadrt hm2_eth board_ip="10.10.10.10" config="num_encoders=1 num_pwmgens=0 num_stepgens=3 sserial_port_0=21xxxxxx" 
 setp    hm2_7i92.0.watchdog.timeout_ns 5000000
 loadrt pid names=pid.x,pid.z,pid.s
-#loadrt lube
-#addf lube.0 servo-thread
+
+loadrt lube
+addf lube.0 servo-thread
 
 addf hm2_7i92.0.read          servo-thread
 addf motion-command-handler   servo-thread
@@ -52,7 +55,7 @@ net estop-ext <= hm2_7i92.0.7i76.0.0.input-06
 
 
 ##################################################################################################
-#                                            O U T P U S
+#                                            O U T P U T S
 ##################################################################################################
 
 #--- ENABLE SERVO-YASKAWA ---
@@ -304,13 +307,13 @@ net coolant-flood  =>    hm2_7i92.0.7i76.0.0.output-04
 #setp hm2_7i92.0.7i76.0.0.output-05.invert_output true 
 #intenta cambiar la lógica de salida: true -> low; false ->high
 
-#net machine-is-enabled lube.0.mrun
-#setp lube.0.xpath 300	#(mm, travel distance)
-#setp lube.0.zpath 300	#(mm, travel distance)
-#setp lube.0.lubetime 3	#(seconds, pump ON)
-#net x-vel-cmd => lube.0.xvel
-#net z-vel-cmd => lube.0.zvel
-#net lube-sig <= lube.0.out => hm2_7i92.0.7i76.0.0.output-05
+net machine-is-enabled lube.0.mrun
+setp lube.0.xpath 30	#(mm, travel distance)
+setp lube.0.zpath 30	#(mm, travel distance)
+setp lube.0.lubetime 3	#(seconds, pump ON)
+net x-vel-cmd => lube.0.xvel
+net z-vel-cmd => lube.0.zvel
+net lube-sig <= lube.0.out => hm2_7i92.0.7i76.0.0.output-05
 
 
 #  ---probe signal---
@@ -344,4 +347,6 @@ net estop-ext     =>  iocontrol.0.emc-enable-in
 
 #  ---ignore tool prepare requests---
 #net tool-prepare-loopback   iocontrol.0.tool-prepare      =>  iocontrol.0.tool-prepared
+
+
 

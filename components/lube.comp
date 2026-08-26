@@ -4,8 +4,8 @@ component lube "Lube and velocity";
 pin in float xvel "X velocity";
 pin in float zvel "Z velocity";
 pin in bit mrun "net machine-is-enabled";
-pin in unsigned xpath = 3000 "X travel";
-pin in unsigned zpath = 3000 "Z travel";
+pin in unsigned xpath = 30 "X travel";
+pin in unsigned zpath = 30 "Z travel";
 pin in float lubetime = 3 "Pump on timer";
 pin out bit out "Pump on signal";
 
