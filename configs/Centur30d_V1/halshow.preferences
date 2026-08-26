@@ -41,6 +41,11 @@ set ::watchlist {
     pin+hm2_7i92.0.encoder.00.input-b
     pin+hm2_7i92.0.encoder.00.input-index
     pin+hm2_7i92.0.encoder.00.position
+    pin+halui.axis.x.increment-minus
+    pin+halui.axis.x.increment-plus
+    pin+halui.axis.x.increment
+    pin+halui.axis.x.minus
+    pin+halui.axis.x.plus
 }
 set ::workmode watchhal
 set ::watchInterval 100

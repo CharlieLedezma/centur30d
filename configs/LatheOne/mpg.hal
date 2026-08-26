@@ -3,6 +3,9 @@
 loadrt mux4 count=1
 addf mux4.0 servo-thread
 
+loadrt mux2 names=joy_mux
+add joy_mux servo-thread
+
 setp hm2_7i92.0.7i76.0.0.encmode0 4
 # For velocity mode, set to 1
 # In velocity mode the axis stops when the dial is stopped
