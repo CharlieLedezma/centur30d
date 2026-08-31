@@ -18,8 +18,8 @@ setp axis.x.jog-vel-mode 0
 setp axis.z.jog-vel-mode 0
 
 # This sets the scale that will be used based on the input to the mux4
-setp mux4.0.in0 0.1
-setp mux4.0.in1 0.01
+setp mux4.0.in0 0.01
+setp mux4.0.in1 0.1
 setp mux4.0.in2 0.001
 
 # The inputs to the mux4 component / X10-switch /X100-switch
@@ -59,7 +59,7 @@ net enable_stick hm2_7i92.0.7i76.0.0.input-24 => joy_mux.sel
 
 net jog-speed  <= joy_mux.out => halui.axis.jog-speed halui.joint.jog-speed
 
-net jog-x-neg <= hm2_7i92.0.7i76.0.0.input-25 => halui.axis.x.minus
-net jog-x-pos <= hm2_7i92.0.7i76.0.0.input-26 => halui.axis.x.plus
-net jog-z-neg <= hm2_7i92.0.7i76.0.0.input-27 => halui.axis.z.minus
-net jog-z-pos <= hm2_7i92.0.7i76.0.0.input-28 => halui.axis.z.plus
+net jog-x-neg <= hm2_7i92.0.7i76.0.0.input-25 => halui.axis.x.minus => halui.joint.0.minus
+net jog-x-pos <= hm2_7i92.0.7i76.0.0.input-26 => halui.axis.x.plus => halui.joint.0.plus
+net jog-z-neg <= hm2_7i92.0.7i76.0.0.input-27 => halui.axis.z.minus => halui.joint.1.minus
+net jog-z-pos <= hm2_7i92.0.7i76.0.0.input-28 => halui.axis.z.plus => halui.joint.1.plus

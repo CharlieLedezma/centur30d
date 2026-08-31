@@ -1,53 +1,36 @@
 # Halshow settings
 # This file is generated automatically.
-wm geometry . 1867x990+2974+356
-placeFrames 0.21442687747035574
-set ::ratio 0.21442687747035574
+wm geometry . 1024x685+0+27
+placeFrames 0.21146245059288538
+set ::ratio 0.21146245059288538
 set ::old_w_leftf 274
 set ::watchlist {
-    pin+hm2_7i92.0.7i76.0.0.enc0.count
-    pin+hm2_7i92.0.7i76.0.0.enc0.position
-    pin+hm2_7i92.0.7i76.0.0.enc1.count
-    pin+hm2_7i92.0.7i76.0.0.enc1.position
-    pin+hm2_7i92.0.7i76.0.0.input-20
-    pin+hm2_7i92.0.7i76.0.0.input-21
-    pin+hm2_7i92.0.7i76.0.0.input-22
-    pin+hm2_7i92.0.7i76.0.0.input-23
-    pin+hm2_7i92.0.7i76.0.0.input-24
-    pin+hm2_7i92.0.7i76.0.0.input-25
-    pin+hm2_7i92.0.7i76.0.0.input-26
-    pin+hm2_7i92.0.7i76.0.0.input-05
-    pin+hm2_7i92.0.7i76.0.0.input-06
-    pin+hm2_7i92.0.7i76.0.0.fieldvoltage
-    pin+wcomp.0.out
-    sig+mpg-x
-    sig+mpg-z
-    sig+mpg-scale
-    pin+hm2_7i92.0.7i76.0.0.enc0.rawcounts
-    pin+hm2_7i92.0.7i76.0.0.enc1.rawcounts
-    sig+spindle-vel-cmd-rpm-abs
-    sig+encoder-counts
     pin+axis.x.jog-counts
     pin+axis.z.jog-counts
-    pin+hm2_7i92.0.7i76.0.0.input-16
-    pin+hm2_7i92.0.7i76.0.0.input-17
-    param+hm2_7i92.0.7i76.0.0.swrevision
-    pin+spindle.0.speed-out
-    pin+carousel.0.current-position
-    sig+spindle-manual-ccw
-    sig+spindle-manual-cw
-    pin+hm2_7i92.0.encoder.00.index-enable
-    pin+hm2_7i92.0.encoder.00.input-a
-    pin+hm2_7i92.0.encoder.00.input-b
-    pin+hm2_7i92.0.encoder.00.input-index
-    pin+hm2_7i92.0.encoder.00.position
-    pin+halui.axis.x.increment-minus
-    pin+halui.axis.x.increment-plus
-    pin+halui.axis.x.increment
-    pin+halui.axis.x.minus
-    pin+halui.axis.x.plus
+    pin+joint.0.jog-enable
+    pin+joint.0.jog-scale
+    pin+joint.1.jog-enable
+    pin+joint.1.jog-scale
+    pin+joint.1.jog-counts
+    pin+joint.0.jog-counts
     pin+lube.0.out
+    pin+lube.0.time
     pin+lube.0.lubetime
+    sig+mpg-x
+    sig+mpg-z
+    sig+enable_stick
+    pin+halui.axis.jog-speed
+    pin+halui.joint.jog-speed
+    pin+halui.joint.0.minus
+    pin+halui.joint.0.plus
+    pin+halui.joint.1.minus
+    pin+halui.joint.1.plus
+    sig+coolant-flood
+    sig+coolant-mist
+    pin+hm2_7i92.0.7i76.0.0.output-03
+    pin+hm2_7i92.0.7i76.0.0.output-04
+    pin+hm2_7i92.0.7i76.0.0.analogin0
+    pin+hm2_7i92.0.7i76.0.0.analogin1
 }
 set ::workmode watchhal
 set ::watchInterval 100

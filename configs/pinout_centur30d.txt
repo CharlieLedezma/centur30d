@@ -40,6 +40,7 @@ nc					hm2_7i92.0.7i76.0.0.analogin2		TB6-3
 nc					hm2_7i92.0.7i76.0.0.analogin3		TB6-4
 home_x				hm2_7i92.0.7i76.0.0.input-04		TB6-5
 home_z				hm2_7i92.0.7i76.0.0.input-05		TB6-6
+estop_panel			hm2_7i92.0.7i76.0.0.input-06		TB6-7
 chuck_valve			hm2_7i92.0.7i76.0.0.input-07		TB6-8
 ---------------------------------------------------------------
 atc_bit1			hm2_7i92.0.7i76.0.0.input-08		TB6-9
@@ -49,16 +50,16 @@ atc_bit4			hm2_7i92.0.7i76.0.0.input-11		TB6-12
 atc_strobe			hm2_7i92.0.7i76.0.0.input-12		TB6-13
 atc_proximity		hm2_7i92.0.7i76.0.0.input-13		TB6-14
 atc_parity			hm2_7i92.0.7i76.0.0.input-14		TB6-15
-lube_sensor			hm2_7i92.0.7i76.0.0.input-15		TB6-16
+nc					hm2_7i92.0.7i76.0.0.input-15		TB6-16
 atc_preindex		hm2_7i92.0.7i76.0.0.output-00		TB6-17	
 atc_motor_cw		hm2_7i92.0.7i76.0.0.output-01		TB6-18	
 atc_motor_ccw		hm2_7i92.0.7i76.0.0.output-02		TB6-19	
 ---------------------------------------------------------------
 coolant				hm2_7i92.0.7i76.0.0.output-03		TB6-20	
 mist				hm2_7i92.0.7i76.0.0.output-04		TB6-21
-lube				hm2_7i92.0.7i76.0.0.output-05		TB6-22
+lube_motor			hm2_7i92.0.7i76.0.0.output-05		TB6-22
 valve_close			hm2_7i92.0.7i76.0.0.output-06		TB6-23	
-valve_open			hm2_7i92.0.7i76.0.0.output-02		TB6-24
+valve_open			hm2_7i92.0.7i76.0.0.output-07		TB6-24
 
 
 
@@ -102,18 +103,18 @@ mpg0_x_a		hm2_7i92.0.7i76.0.0.input-16		TB5-1
 mpg0_x_b		hm2_7i92.0.7i76.0.0.input-17		TB5-2
 mpg1_z_a		hm2_7i92.0.7i76.0.0.input-18		TB5-3
 mpg2_z_b		hm2_7i92.0.7i76.0.0.input-19		TB5-4
-sel_1			hm2_7i92.0.7i76.0.0.input-20		TB5-5
-sel_10			hm2_7i92.0.7i76.0.0.input-21		TB5-6
-sel_100			hm2_7i92.0.7i76.0.0.input-22		TB5-7
-sel_x			hm2_7i92.0.7i76.0.0.input-23		TB5-8
-sel_z			hm2_7i92.0.7i76.0.0.input-24		TB5-9
-stickena		hm2_7i92.0.7i76.0.0.input-25		TB5-10
-stick_x-		hm2_7i92.0.7i76.0.0.input-26		TB5-11
-stick_x+		hm2_7i92.0.7i76.0.0.input-27		TB5-12
-stick_z-		hm2_7i92.0.7i76.0.0.input-28		TB5-13
-stick_z+		hm2_7i92.0.7i76.0.0.input-29		TB5-14
-nc				hm2_7i92.0.7i76.0.0.input-30		TB5-15
-nc				hm2_7i92.0.7i76.0.0.input-31		TB5-16
+sel_10			hm2_7i92.0.7i76.0.0.input-20		TB5-5
+sel_100			hm2_7i92.0.7i76.0.0.input-21		TB5-6
+sel_x			hm2_7i92.0.7i76.0.0.input-22		TB5-7
+sel_z			hm2_7i92.0.7i76.0.0.input-23		TB5-8
+stickena		hm2_7i92.0.7i76.0.0.input-24		TB5-9
+stick_x-		hm2_7i92.0.7i76.0.0.input-25		TB5-10
+stick_x+		hm2_7i92.0.7i76.0.0.input-26		TB5-11
+stick_z-		hm2_7i92.0.7i76.0.0.input-27		TB5-12
+stick_z+		hm2_7i92.0.7i76.0.0.input-28		TB5-13
+estop_mpg		hm2_7i92.0.7i76.0.0.input-29		TB5-14
+lube_empty		hm2_7i92.0.7i76.0.0.input-30		TB5-15
+lube_pressure	hm2_7i92.0.7i76.0.0.input-31		TB5-16
 
 
 
@@ -121,10 +122,10 @@ nc				hm2_7i92.0.7i76.0.0.input-31		TB5-16
 ***************************************************************
 		     				SECURITY
 ***************************************************************
-enable_axis_x	hm2_7i92.0.7i76.0.0.output-08		TB5-17
-enable_axis_z	hm2_7i92.0.7i76.0.0.output-09		TB5-18
-Spindle_Low		hm2_7i92.0.7i76.0.0.output-09		TB5-18
-Spindle_High	hm2_7i92.0.7i76.0.0.output-10		TB5-19
+spindle_Low		hm2_7i92.0.7i76.0.0.output-08		TB5-17
+spindle_High	hm2_7i92.0.7i76.0.0.output-09		TB5-18
+enable_axis		hm2_7i92.0.7i76.0.0.output-10		TB5-19
+nc				hm2_7i92.0.7i76.0.0.output-11		TB5-20
 
 
 

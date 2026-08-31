@@ -17,6 +17,14 @@ loadrt hm2_eth board_ip="10.10.10.10" config="num_encoders=1 num_pwmgens=0 num_s
 setp    hm2_7i92.0.watchdog.timeout_ns 5000000
 loadrt pid names=pid.x,pid.z,pid.s
 
+loadrt 	or2 	count=2
+addf 	or2.1 	servo-thread
+
+
+loadrt and2 names=and2.Turret-close,and2.estop
+
+addf and2.estop         	servo-thread
+
 loadrt lube
 addf lube.0 servo-thread
 
@@ -51,8 +59,13 @@ net home-z <= hm2_7i92.0.7i76.0.0.input-05
 
 
 # --- ESTOP-EXT ---
-net estop-ext <= hm2_7i92.0.7i76.0.0.input-06
+net estop_panel <= hm2_7i92.0.7i76.0.0.input-06
+net estop_mpg <= hm2_7i92.0.7i76.0.0.input-29
 
+
+
+net estop_panel => and2.estop.in0
+net estop_mpg => and2.estop.in1
 
 ##################################################################################################
 #                                            O U T P U T S
@@ -330,7 +343,14 @@ net machine-is-enabled        <=  motion.motion-enabled
 #  ---estop signals---
 
 net estop-out     <=  iocontrol.0.user-enable-out
-net estop-ext     =>  iocontrol.0.emc-enable-in
+#net estop-ext     =>  iocontrol.0.emc-enable-in
+
+#net estop_panel =>  iocontrol.0.emc-enable-in
+#net combined-estop <= or2.1.out => iocontrol.0.emc-enable-in
+
+net combined-estop <= and2.estop.out => iocontrol.0.emc-enable-in
+
+#net combined-estop => iocontrol.0.emc-enable-in
 
 #  ---manual tool change signals---
 

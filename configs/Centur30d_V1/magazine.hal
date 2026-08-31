@@ -30,9 +30,9 @@ loadrt carousel pockets=8 encoding=binary num_sense=4 dir=2 parity=0
 
 
 #loadrt and2 names=and2.Hydraulik-frei,and2.Spind-enable,and2.Spindel-frei,and2.Turret-close
-loadrt and2 names=and2.Turret-close
+#loadrt and2 names=and2.Turret-close
 loadrt timedelay count=3
-loadrt or2 count=1
+###loadrt or2 count=1
 
 #loadrt and2 names=and2_Turret_LOCK,and2_freno_Turret_ON_OFF
 #loadrt not  names=not_carrousel_EN
