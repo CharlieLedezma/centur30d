@@ -1,0 +1,48 @@
+# Load scale components for our 2 analog inputs
+loadrt scale count=2
+addf scale.0 servo-thread
+addf scale.1 servo-thread
+
+loadrt conv_float_s32 count=1
+addf conv-float-s32.0 servo-thread
+
+setp halui.spindle.0.override.direct-value true
+setp halui.spindle.0.override.count-enable true
+setp halui.spindle.0.override.scale 0.01
+
+
+########FEED OVERRIDE#################
+
+# --- Setup Analog Input 1 (e.g., Feed Rate Override Potentiometer) ---
+# Raw voltage from Mesa Input 0 goes into scale.0
+net potenciometer1 hm2_7i92.0.7i76.0.0.analogin0 => scale.0.in
+
+# Scale it: If your pot uses a 5V reference, 5V input = 100% (1.0) override multiplier
+# Gain = 1 / Max expected voltage -> 1 / 24.0 = 0.0417
+
+setp scale.0.gain 0.0417
+setp scale.0.offset 0.0
+
+# Connect the scaled result to LinuxCNC's motion override pin
+net feed-override-scaled scale.0.out => motion.adaptive-feed
+
+
+########SPINDLE OVERRIDE#################
+# --- Setup Analog Input 2 (e.g., Spindle Override Potentiometer) ---
+# Raw voltage from Mesa Input 1 goes into scale.1
+
+# Scale it similarly 
+setp scale.1.gain 0.0417
+setp scale.1.offset 0.0
+
+net potenciometer2 hm2_7i92.0.7i76.0.0.analogin1 => scale.1.in
+
+net spindle-convert scale.1.out conv-float-s32.0.in
+
+net spindle-override conv-float-s32.0.out halui.spindle.0.override.counts
+
+#net spindle-override-scaled scale.1.out => halui.spindle.0.override.counts
+
+
+
+

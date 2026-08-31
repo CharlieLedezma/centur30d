@@ -1,6 +1,6 @@
 # Halshow settings
 # This file is generated automatically.
-wm geometry . 1024x685+0+27
+wm geometry . 1024x685+3070+166
 placeFrames 0.21146245059288538
 set ::ratio 0.21146245059288538
 set ::old_w_leftf 274
@@ -31,6 +31,15 @@ set ::watchlist {
     pin+hm2_7i92.0.7i76.0.0.output-04
     pin+hm2_7i92.0.7i76.0.0.analogin0
     pin+hm2_7i92.0.7i76.0.0.analogin1
+    pin+halui.spindle.0.override.direct-value
+    pin+halui.spindle.0.override.count-enable
+    pin+halui.spindle.0.override.counts
+    pin+halui.spindle.0.override.value
+    pin+halui.spindle.0.override.scale
+    pin+arduino.din.1
+    pin+arduino.din.2
+    pin+arduino.din.3
+    pin+arduino.dout.20
 }
 set ::workmode watchhal
 set ::watchInterval 100
