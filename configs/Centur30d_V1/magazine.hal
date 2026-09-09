@@ -31,21 +31,18 @@ loadrt carousel pockets=8 encoding=binary num_sense=4 dir=2 parity=0
 
 #Load one instance of real-time timedelay
 loadrt timedelay count=1
-
-###loadrt or2 count=1
-
-#loadrt and2 names=and2_Turret_LOCK,and2_freno_Turret_ON_OFF
-#loadrt not  names=not_carrousel_EN
+loadrt oneshot names=oneshot_solenoid
 
 
 addf carousel.0                 servo-thread
 addf or2.0                    	servo-thread
 addf and2.Turret-close         	servo-thread
+addf oneshot_solenoid           servo-thread
 
 
 
 ############################################################################################################################
-#										ENTRADAS PARA SELECCION HERRAMIENTA ATC
+#										I/O SETTINGS ATC
 ############################################################################################################################
 
 net tc_bit_0  	hm2_7i92.0.7i76.0.0.input-08 => carousel.0.sense-0
@@ -54,41 +51,15 @@ net tc_bit_2  	hm2_7i92.0.7i76.0.0.input-10 => carousel.0.sense-2
 net tc_bit_3  	hm2_7i92.0.7i76.0.0.input-11 => carousel.0.sense-3
 net tc_strobe 	hm2_7i92.0.7i76.0.0.input-12 => carousel.0.strobe 
 net tc_parity 	hm2_7i92.0.7i76.0.0.input-14 => carousel.0.parity
+net preindex    hm2_7i92.0.7i76.0.0.input-13
+
+net tool-fwd   	hm2_7i92.0.7i76.0.0.output-01 <=	carousel.0.motor-fwd 	            
+net tool-rev   	hm2_7i92.0.7i76.0.0.output-02 <=	carousel.0.motor-rev    	 
+net tool-solen 	hm2_7i92.0.7i76.0.0.output-00
 
 ############################################################################################################################
-#					  								ACTIVACIÓN DE MOTOR 
+#					  								CHECKING HEALTH
 ############################################################################################################################
-
-net tool-fwd   carousel.0.motor-fwd 	hm2_7i92.0.7i76.0.0.output-01            
-net tool-rev  carousel.0.motor-rev    	hm2_7i92.0.7i76.0.0.output-02 
-
-############################################################################################################################
-#								SENSOR DE PROXIMIDAD DE LA TORRETA 
-############################################################################################################################
-
-# SENSOR DE PROXIMIDAD QUE INDICA QUE EL SOLENOIDE ESTA ACTIVADO
- 
-net sw-torreta_preindex     hm2_7i92.0.7i76.0.0.input-13  
-
-#RETARDO DE 50 mS MOTOR TORRETA  PARA INVERTIR GIRO MOTOR PARA QUE LA CORONA BLOQUE EL DISCO PORTAHERRAMIENTAS
-setp timedelay.0.on-delay       0.1                                         # RETARDO DE 50 mS PARA CAMBIAR DIRECCION DE ROTACION DEL MOTOR PARA BLOQUEAR LA TORRETA
-net sensor-Solenoide_ON_OFF     timedelay.0.in                              # SE DETECTA LA ACTIVACION DEL SOLENOIDE PARA INICARL EL RETARDO EN LA INVERSION DE LA DIRECCION DEL MOTOR.
-net motor-REV                   timedelay.0.out  and2_mot_REV_OFF.in0       # SALIDA PARA INVERSION DE LA DIRECCION DEL MOTOR.
-
-
-############################################################################################################################
-#						SOLENOIDE DE PREINDEXACIÓN 
-############################################################################################################################
-# SE ACTIVA EL SOLENOIDE DE LA TORRETA CUANDO LA HERRAMIENTA SELECCIONADA ESTA EN POSICION
-net tool-confirm =>  hm2_7i92.0.7i76.0.0.output-00  
-
-
-
-
-############################################################################################################################
-#						MECANISMO DE BLOQUEO
-############################################################################################################################
-
 #motion.feed-hold: TRUE, detiene la máquina, causando que el feed rate se vuela cero.
 
 
@@ -96,14 +67,34 @@ net tool-change-done   	=> and2.Turret-close.in0
 net strobe_not 		=> and2.Turret-close.in1
 net locked motion.feed-hold <= and2.Turret-close.out
 
+############################################################################################################################
+#								SENSOR DE PROXIMIDAD DE LA TORRETA 
+############################################################################################################################
+# SE ACTIVA EL SOLENOIDE DE LA TORRETA CUANDO LA HERRAMIENTA SELECCIONADA ESTA EN POSICION
+# SENSOR DE PROXIMIDAD QUE INDICA QUE EL SOLENOIDE ESTA ACTIVADO
+ 
+#net sw-torreta_preindex     hm2_7i92.0.7i76.0.0.input-13  
 
-#net tool-fwd carousel.0.motor-fwd  => or2.0.in0
-#net tool-rev carousel.0.motor-rev  => or2.0.in1
-#net tool-brake  <= or2.0.out
-#net tool-brake => hm2_[MESA](BOARD).0.ssr.00.out-02
+setp oneshot_solenoid.width 3
+setp oneshot_solenoid.rising 1     
+
+net tool-confirm	oneshot_solenoid.in
+net tool-solen		oneshot_solenoid.out
+
+#net machine-is-enabled and2.Turret-close.in0 
 
 
+############################################################################################################################
+#												PRE-INDEX SOLENOID 
+############################################################################################################################
 
+#RETARDO DE 50 mS MOTOR TORRETA  PARA INVERTIR GIRO MOTOR PARA QUE LA CORONA BLOQUE EL DISCO PORTAHERRAMIENTAS
+#net tool-confirm =>  hm2_7i92.0.7i76.0.0.output-00  
+
+setp 			timedelay.0.on-delay       0.1  
+#setp 			timedelay.0.off-delay 0.00                                       
+net preindex    timedelay.0.in                              
+net tool-rev    timedelay.0.out   
 
 
 ############################################################################################################################
@@ -113,9 +104,8 @@ net locked motion.feed-hold <= and2.Turret-close.out
 net tool-num            iocontrol.0.tool-prep-pocket    => carousel.0.pocket-number
 net prep-loop           iocontrol.0.tool-prepare        => iocontrol.0.tool-prepared
 net tool-change-start   iocontrol.0.tool-change         => carousel.0.enable                  
-net tool-confirm        carousel.0.ready      		=> iocontrol.0.tool-changed
-
-net tool-active	   	carousel.0.current-position
+net tool-confirm        carousel.0.ready      			=> iocontrol.0.tool-changed
+net tool-active	   		carousel.0.current-position
 
 
 
