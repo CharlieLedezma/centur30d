@@ -1,0 +1,97 @@
+#carrousel component
+#https://github.com/LinuxCNC/linuxcnc/tree/master/src/hal/components
+############################################################################################################################
+#								NOTES
+############################################################################################################################
+#This version has a pin called "counts-target" which can be connected either to a stepgen or a PID linked to an encoder.
+
+#Note that you should set the stepgen scale to 1.0 and allow the carousel component to handle scaling.
+#version in 2.9 that can use direct encoder feedback,
+#para instalarlo en el sistema:
+# 	$ sudo halcompile --install carousel.comp
+#        Si el comando no funciona, primero se debe correr:
+#	$ sudo apt-get install linuxcnc-uspace-dev
+#
+#
+#	BIT4	BIT3	BIT2	BIT1
+#1	0	0	0	1
+#2	0	0	1	0
+#3	0	0	1	1
+#4	0	1	0	0
+#5	0	1	0	1
+#6	0	1	1	0
+#7	0	1	1	1
+#8	1	0	0	0
+	
+
+############################################################################################################################
+
+loadrt carousel pockets=8 encoding=binary num_sense=4 dir=2 parity=0
+
+
+#Load one instance of real-time timedelay
+loadrt timedelay count=1
+loadrt oneshot names=oneshot_solenoid
+
+
+addf carousel.0                 servo-thread
+#addf or2.0                    	servo-thread
+addf or2_motorRev				servo-thread
+addf and2_solenoid				servo-thread
+addf and2_lock         			servo-thread
+
+addf oneshot_solenoid           servo-thread
+
+############################################################################################################################
+#												I/O SETTINGS ATC
+############################################################################################################################
+
+net tc_bit_0  	hm2_7i92.0.7i76.0.0.input-08 => carousel.0.sense-0
+net tc_bit_1  	hm2_7i92.0.7i76.0.0.input-09 => carousel.0.sense-1
+net tc_bit_2  	hm2_7i92.0.7i76.0.0.input-10 => carousel.0.sense-2
+net tc_bit_3  	hm2_7i92.0.7i76.0.0.input-11 => carousel.0.sense-3
+net tc_strobe 	hm2_7i92.0.7i76.0.0.input-12 => carousel.0.strobe 
+net tc_parity 	hm2_7i92.0.7i76.0.0.input-14 => carousel.0.parity
+net preindex    hm2_7i92.0.7i76.0.0.input-13-not
+
+net tool-fwd   	hm2_7i92.0.7i76.0.0.output-01 <=	carousel.0.motor-fwd 	            
+#net tool-rev   	hm2_7i92.0.7i76.0.0.output-02 <=	carousel.0.motor-rev    	 
+#net tool-solen 	hm2_7i92.0.7i76.0.0.output-00
+
+
+############################################################################################################################
+#										 		SOLENOID CONTROL
+############################################################################################################################
+
+setp oneshot_solenoid.width 0.5
+setp oneshot_solenoid.rising 1     
+
+net tool-confirm		oneshot_solenoid.in
+net rev_enable			oneshot_solenoid.out	and2_solenoid.in0
+net tool-change-start	and2_solenoid.in1									#carousel.0.enable
+net sonlenoid_on-off	and2_solenoid.out  hm2_7i92.0.7i76.0.0.output-00
+
+
+############################################################################################################################
+#										 		LOCK TURRET CONTROL
+############################################################################################################################
+
+setp 			timedelay.0.on-delay       0.1
+net preindex    timedelay.0.in
+net tool-rev    timedelay.0.out	and2_lock.in0
+net rev_enable	and2_lock.in1
+net lockout		and2_lock.out	or2_motorRev.in0
+net motor_rev 	carousel.0.motor-rev or2_motorRev.in1
+net ccw			or2_motorRev.out	hm2_7i92.0.7i76.0.0.output-02
+
+############################################################################################################################
+#													ATC SIGNALS
+############################################################################################################################
+
+net tool-num            iocontrol.0.tool-prep-pocket    => carousel.0.pocket-number
+net prep-loop           iocontrol.0.tool-prepare        => iocontrol.0.tool-prepared
+net tool-change-start   iocontrol.0.tool-change         => carousel.0.enable                  
+net tool-confirm        carousel.0.ready      			=> iocontrol.0.tool-changed
+net tool-active	   		carousel.0.current-position
+
+
